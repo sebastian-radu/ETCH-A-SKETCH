@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utc-8">
+        <title>Etch-A-Sketch</title>
+
+        <style>
+
+            html {
+                box-sizing: border-box;
+                background: #063852;
+            }
+
+            .container {
+                width: 960px;
+                height: 960px;
+                margin: 50px auto;
+                background: white;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .smallContainer {
+                width: 960px;
+                height: 60px;
+                display:flex;
+                flex: auto;
+            }
+
+            .box {
+                flex: auto;
+                border: black solid 1px;
+            }
+
+            button {
+                width: 80px;
+                height: 40px;
+                border-radius: 5px;
+                background: #f0810f;
+                border: none;
+                color: white;
+                font-family: Helvetica;
+                font-size: 18px;
+                position: relative;
+                left: 162px;
+                top: 35px;
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+        <button>Reset</button>
+       <div class="container"></div>>
+
+        <script>
+
+            let randomColor = function() {
+                var num = Math.round(0xffffff * Math.random());
+                var r = num >> 16;
+                var g = num >> 8 & 255;
+                var b = num & 255;
+                return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+            }
+
+            const container = document.querySelector(".container");
+            const buildTable = function(num){
+                for (let row = 0; row < num; row++){
+                    let table = document.createElement('div');
+                    table.classList.add('smallContainer');
+                    container.append(table);
+                    for (let col = 0; col < num; col++) {
+                        var box = document.createElement('div');
+                        box.classList.add('box');
+                        table.append(box);
+                    }
+                }
+                const squares = document.querySelectorAll('.box');
+            squares.forEach((square) => {
+                square.addEventListener('mouseover', (e) => {
+                    e.target.style.background = randomColor();
+                })
+            })
+            }
+
+            const clearTable = function() {
+                while (container.firstChild){
+                    container.removeChild(container.firstChild);
+                }
+            }
+            buildTable(16);
+
+            const button = document.querySelector('button');
+            button.addEventListener('click', () => {
+                clearTable();
+                let answer = prompt("How wide should the next table be?");
+                num = parseInt(answer);
+                buildTable(num);
+            })
+        </script>
+    </body>
+</html>
